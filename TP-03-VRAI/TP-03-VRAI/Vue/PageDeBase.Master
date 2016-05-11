@@ -1,0 +1,60 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PageDeBase.master.cs" Inherits="TP_03_VRAI.Vue.PageDeBase" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="../CSS/style.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+
+    <!-- Menu! -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">MonGarage.com</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Test</a></li>
+                </ul>
+
+                <!-- Si le membre n'est pas connecté, affiché le form de connexion, sinon déconnexion. -->
+                <div id="menuSiNonConn" runat="server"></div>
+            </div>
+        </div>
+    </nav>
+    <!-- Fin menu -->
+
+    <form id="formDeBase" runat="server">
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container">
+                    <div class="col-xs-12">
+                        <h3>FOOTER</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

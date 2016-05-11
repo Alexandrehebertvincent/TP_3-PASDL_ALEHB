@@ -57,6 +57,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSS\bootstrap.min.css" />
+    <Content Include="CSS\style.css" />
+    <Content Include="Vue\PageDeBase.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -65,11 +68,47 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\BD_TP3.mdf" />
+    <Content Include="App_Data\BD_TP3_log.ldf">
+      <DependentUpon>BD_TP3.mdf</DependentUpon>
+    </Content>
+    <Content Include="Vue\Pages\Accueil.aspx" />
+    <Content Include="Vue\Pages\Articles.aspx" />
+    <Content Include="Vue\Pages\ArticleUnique.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vue\PageDeBase.Master.cs">
+      <DependentUpon>PageDeBase.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\PageDeBase.Master.designer.cs">
+      <DependentUpon>PageDeBase.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Pages\Accueil.aspx.cs">
+      <DependentUpon>Accueil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\Accueil.aspx.designer.cs">
+      <DependentUpon>Accueil.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Pages\Articles.aspx.cs">
+      <DependentUpon>Articles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\Articles.aspx.designer.cs">
+      <DependentUpon>Articles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Pages\ArticleUnique.aspx.cs">
+      <DependentUpon>ArticleUnique.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\ArticleUnique.aspx.designer.cs">
+      <DependentUpon>ArticleUnique.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
