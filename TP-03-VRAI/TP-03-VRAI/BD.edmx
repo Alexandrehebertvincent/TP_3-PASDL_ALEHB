@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BD_TP3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ITEM">
+          <Key>
+            <PropertyRef Name="ID_ITEM" />
+          </Key>
+          <Property Name="ID_ITEM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VENDEUR" Type="nchar" MaxLength="100" />
+          <Property Name="DESCRIPTION" Type="nchar" MaxLength="255" />
+          <Property Name="PHOTO_URL" Type="nchar" MaxLength="10" />
+          <Property Name="CATEGORIE" Type="nchar" MaxLength="75" />
+          <Property Name="PRIX_PLANCHER" Type="float" />
+          <Property Name="STATUT" Type="nchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="MEMBRES">
+          <Key>
+            <PropertyRef Name="ID_MEMBRE" />
+          </Key>
+          <Property Name="ID_MEMBRE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOM_MEMBRE" Type="nchar" MaxLength="100" />
+          <Property Name="MOT_DE_PASSE" Type="nchar" MaxLength="100" />
+          <Property Name="STATUT" Type="nchar" MaxLength="30" />
+          <Property Name="CONTACT" Type="nchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="OFFRE">
+          <Key>
+            <PropertyRef Name="ID_OFFRE" />
+          </Key>
+          <Property Name="ID_OFFRE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_MEMBRE" Type="int" Nullable="false" />
+          <Property Name="ID_ITEM" Type="int" Nullable="false" />
+          <Property Name="PRIX_OFFRE" Type="float" Nullable="false" />
+          <Property Name="DATE_OFFRE" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__OFFRE__ID_ITEM__24927208">
+          <End Role="ITEM" Type="Self.ITEM" Multiplicity="1" />
+          <End Role="OFFRE" Type="Self.OFFRE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ITEM">
+              <PropertyRef Name="ID_ITEM" />
+            </Principal>
+            <Dependent Role="OFFRE">
+              <PropertyRef Name="ID_ITEM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OFFRE__ID_MEMBRE__239E4DCF">
+          <End Role="MEMBRES" Type="Self.MEMBRES" Multiplicity="1" />
+          <End Role="OFFRE" Type="Self.OFFRE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBRES">
+              <PropertyRef Name="ID_MEMBRE" />
+            </Principal>
+            <Dependent Role="OFFRE">
+              <PropertyRef Name="ID_MEMBRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BD_TP3ModelStoreContainer">
+          <EntitySet Name="ITEM" EntityType="Self.ITEM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEMBRES" EntityType="Self.MEMBRES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OFFRE" EntityType="Self.OFFRE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__OFFRE__ID_ITEM__24927208" Association="Self.FK__OFFRE__ID_ITEM__24927208">
+            <End Role="ITEM" EntitySet="ITEM" />
+            <End Role="OFFRE" EntitySet="OFFRE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OFFRE__ID_MEMBRE__239E4DCF" Association="Self.FK__OFFRE__ID_MEMBRE__239E4DCF">
+            <End Role="MEMBRES" EntitySet="MEMBRES" />
+            <End Role="OFFRE" EntitySet="OFFRE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BD_TP3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ITEM">
+          <Key>
+            <PropertyRef Name="ID_ITEM" />
+          </Key>
+          <Property Name="ID_ITEM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VENDEUR" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="PHOTO_URL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CATEGORIE" Type="String" MaxLength="75" FixedLength="true" Unicode="true" />
+          <Property Name="PRIX_PLANCHER" Type="Double" />
+          <Property Name="STATUT" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="OFFRE" Relationship="Self.FK__OFFRE__ID_ITEM__24927208" FromRole="ITEM" ToRole="OFFRE" />
+        </EntityType>
+        <EntityType Name="MEMBRES">
+          <Key>
+            <PropertyRef Name="ID_MEMBRE" />
+          </Key>
+          <Property Name="ID_MEMBRE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOM_MEMBRE" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="MOT_DE_PASSE" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="STATUT" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="CONTACT" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="OFFRE" Relationship="Self.FK__OFFRE__ID_MEMBRE__239E4DCF" FromRole="MEMBRES" ToRole="OFFRE" />
+        </EntityType>
+        <EntityType Name="OFFRE">
+          <Key>
+            <PropertyRef Name="ID_OFFRE" />
+          </Key>
+          <Property Name="ID_OFFRE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_MEMBRE" Type="Int32" Nullable="false" />
+          <Property Name="ID_ITEM" Type="Int32" Nullable="false" />
+          <Property Name="PRIX_OFFRE" Type="Double" Nullable="false" />
+          <Property Name="DATE_OFFRE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ITEM" Relationship="Self.FK__OFFRE__ID_ITEM__24927208" FromRole="OFFRE" ToRole="ITEM" />
+          <NavigationProperty Name="MEMBRES" Relationship="Self.FK__OFFRE__ID_MEMBRE__239E4DCF" FromRole="OFFRE" ToRole="MEMBRES" />
+        </EntityType>
+        <Association Name="FK__OFFRE__ID_ITEM__24927208">
+          <End Role="ITEM" Type="Self.ITEM" Multiplicity="1" />
+          <End Role="OFFRE" Type="Self.OFFRE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ITEM">
+              <PropertyRef Name="ID_ITEM" />
+            </Principal>
+            <Dependent Role="OFFRE">
+              <PropertyRef Name="ID_ITEM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OFFRE__ID_MEMBRE__239E4DCF">
+          <End Role="MEMBRES" Type="Self.MEMBRES" Multiplicity="1" />
+          <End Role="OFFRE" Type="Self.OFFRE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBRES">
+              <PropertyRef Name="ID_MEMBRE" />
+            </Principal>
+            <Dependent Role="OFFRE">
+              <PropertyRef Name="ID_MEMBRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BD_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ITEM" EntityType="Self.ITEM" />
+          <EntitySet Name="MEMBRES" EntityType="Self.MEMBRES" />
+          <EntitySet Name="OFFRE" EntityType="Self.OFFRE" />
+          <AssociationSet Name="FK__OFFRE__ID_ITEM__24927208" Association="Self.FK__OFFRE__ID_ITEM__24927208">
+            <End Role="ITEM" EntitySet="ITEM" />
+            <End Role="OFFRE" EntitySet="OFFRE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OFFRE__ID_MEMBRE__239E4DCF" Association="Self.FK__OFFRE__ID_MEMBRE__239E4DCF">
+            <End Role="MEMBRES" EntitySet="MEMBRES" />
+            <End Role="OFFRE" EntitySet="OFFRE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BD_TP3ModelStoreContainer" CdmEntityContainer="BD_Entities">
+          <EntitySetMapping Name="ITEM">
+            <EntityTypeMapping TypeName="BD_TP3Model.ITEM">
+              <MappingFragment StoreEntitySet="ITEM">
+                <ScalarProperty Name="ID_ITEM" ColumnName="ID_ITEM" />
+                <ScalarProperty Name="VENDEUR" ColumnName="VENDEUR" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="PHOTO_URL" ColumnName="PHOTO_URL" />
+                <ScalarProperty Name="CATEGORIE" ColumnName="CATEGORIE" />
+                <ScalarProperty Name="PRIX_PLANCHER" ColumnName="PRIX_PLANCHER" />
+                <ScalarProperty Name="STATUT" ColumnName="STATUT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEMBRES">
+            <EntityTypeMapping TypeName="BD_TP3Model.MEMBRES">
+              <MappingFragment StoreEntitySet="MEMBRES">
+                <ScalarProperty Name="ID_MEMBRE" ColumnName="ID_MEMBRE" />
+                <ScalarProperty Name="NOM_MEMBRE" ColumnName="NOM_MEMBRE" />
+                <ScalarProperty Name="MOT_DE_PASSE" ColumnName="MOT_DE_PASSE" />
+                <ScalarProperty Name="STATUT" ColumnName="STATUT" />
+                <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OFFRE">
+            <EntityTypeMapping TypeName="BD_TP3Model.OFFRE">
+              <MappingFragment StoreEntitySet="OFFRE">
+                <ScalarProperty Name="ID_OFFRE" ColumnName="ID_OFFRE" />
+                <ScalarProperty Name="ID_MEMBRE" ColumnName="ID_MEMBRE" />
+                <ScalarProperty Name="ID_ITEM" ColumnName="ID_ITEM" />
+                <ScalarProperty Name="PRIX_OFFRE" ColumnName="PRIX_OFFRE" />
+                <ScalarProperty Name="DATE_OFFRE" ColumnName="DATE_OFFRE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
