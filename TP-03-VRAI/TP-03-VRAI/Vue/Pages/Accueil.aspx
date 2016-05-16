@@ -7,5 +7,5 @@
       <div class="container">
         <h1>Bienvenue sur MonGarage.com!</h1>
       </div>
-    </div>
+    </div>    
 </asp:Content>

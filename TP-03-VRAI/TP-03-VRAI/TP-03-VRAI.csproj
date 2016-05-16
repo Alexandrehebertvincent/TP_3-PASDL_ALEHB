@@ -101,6 +101,7 @@
     <Content Include="Vue\Pages\Accueil.aspx" />
     <Content Include="Vue\Pages\Articles.aspx" />
     <Content Include="Vue\Pages\ArticleUnique.aspx" />
+    <Content Include="Vue\Pages\Inscription.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,13 @@
     </Compile>
     <Compile Include="Vue\Pages\ArticleUnique.aspx.designer.cs">
       <DependentUpon>ArticleUnique.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Pages\Inscription.aspx.cs">
+      <DependentUpon>Inscription.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\Inscription.aspx.designer.cs">
+      <DependentUpon>Inscription.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

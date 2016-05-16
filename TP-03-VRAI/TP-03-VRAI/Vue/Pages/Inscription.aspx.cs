@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace TP_03_VRAI.Vue
+namespace TP_03_VRAI.Vue.Pages
 {
-    public partial class PageDeBase : System.Web.UI.MasterPage
+    public partial class Inscription : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

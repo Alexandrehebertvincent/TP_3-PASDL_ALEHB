@@ -31,13 +31,15 @@
                 </ul>
 
                 <!-- Si le membre n'est pas connecté, affiché le form de connexion, sinon déconnexion. -->
-                <div id="menuSiNonConn" runat="server"></div>
+               <div class="navbar-form navbar-right">
+                   <asp:Button ID="btnInscription" runat="server" Text="Button" />
+                </div>
             </div>
         </div>
     </nav>
     <!-- Fin menu -->
 
-    <form id="formDeBase" runat="server">
+    
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         
