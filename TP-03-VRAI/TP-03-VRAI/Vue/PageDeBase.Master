@@ -14,6 +14,7 @@
 <body>
 
     <!-- Menu! -->
+    <form runat="server">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -31,16 +32,28 @@
                 </ul>
 
                 <!-- Si le membre n'est pas connecté, affiché le form de connexion, sinon déconnexion. -->
-               <div class="navbar-form navbar-right">
-                   <asp:Button ID="btnInscription" runat="server" Text="Button" />
+               <div class="navbar-form navbar-right" ID="divConnexion" runat="server">
+                   <asp:TextBox ID="txtUser" CssClass="input-sm" runat="server" placeholder="Nom de membre"></asp:TextBox>
+                   <asp:TextBox ID="txtPass" CssClass="input-sm" runat="server" TextMode="Password" placeholder="Mot de passe"></asp:TextBox>
+                   <asp:Button ID="btnInscription" CssClass="btn btn-primary" runat="server" Text="Se connecter" OnClick="btnInscription_Click" />
+                </div>
+                <div class="navbar-form navbar-right" ID="divDeconnexion" runat="server">
+                    <asp:Button ID="btnDeconnexion" CssClass="btn btn-default" runat="server" Text="Deconnexion" OnClick="btnDeconnexion_Click" />
                 </div>
             </div>
         </div>
     </nav>
     <!-- Fin menu -->
 
+    <div id="divConnErreur" class="erreur-top" runat="server"></div>
     
     <div>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1 id="lblTitreJumbo" runat="server">Bienvenue sur MonGarage.com!</h1>
+      </div>
+    </div> 
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         
         </asp:ContentPlaceHolder>

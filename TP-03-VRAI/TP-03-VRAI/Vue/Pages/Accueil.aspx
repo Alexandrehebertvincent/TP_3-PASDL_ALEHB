@@ -3,9 +3,5 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Bienvenue sur MonGarage.com!</h1>
-      </div>
-    </div>    
+   
 </asp:Content>
