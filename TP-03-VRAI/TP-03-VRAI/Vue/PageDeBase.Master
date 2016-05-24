@@ -12,7 +12,6 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-
     <!-- Menu! -->
     <form runat="server">
     <nav class="navbar navbar-inverse navbar-fixed-top">

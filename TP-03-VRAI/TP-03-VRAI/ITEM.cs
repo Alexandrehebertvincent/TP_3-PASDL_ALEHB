@@ -26,6 +26,8 @@ namespace TP_03_VRAI
         public string CATEGORIE { get; set; }
         public Nullable<double> PRIX_PLANCHER { get; set; }
         public string STATUT { get; set; }
+        public string TITRE { get; set; }
+        public Nullable<System.DateTime> DATE_INSCRIPTION { get; set; }
     
         public virtual ICollection<OFFRE> OFFRE { get; set; }
     }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BD_TP3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BD_TP3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ITEM">
           <Key>
             <PropertyRef Name="ID_ITEM" />
@@ -12,10 +12,12 @@
           <Property Name="ID_ITEM" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VENDEUR" Type="nchar" MaxLength="100" />
           <Property Name="DESCRIPTION" Type="nchar" MaxLength="255" />
-          <Property Name="PHOTO_URL" Type="nchar" MaxLength="10" />
+          <Property Name="PHOTO_URL" Type="nchar" MaxLength="100" />
           <Property Name="CATEGORIE" Type="nchar" MaxLength="75" />
           <Property Name="PRIX_PLANCHER" Type="float" />
           <Property Name="STATUT" Type="nchar" MaxLength="25" />
+          <Property Name="TITRE" Type="nchar" MaxLength="100" />
+          <Property Name="DATE_INSCRIPTION" Type="datetime" />
         </EntityType>
         <EntityType Name="MEMBRES">
           <Key>
@@ -74,8 +76,7 @@
             <End Role="OFFRE" EntitySet="OFFRE" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BD_TP3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -86,11 +87,13 @@
           <Property Name="ID_ITEM" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VENDEUR" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="PHOTO_URL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PHOTO_URL" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="CATEGORIE" Type="String" MaxLength="75" FixedLength="true" Unicode="true" />
           <Property Name="PRIX_PLANCHER" Type="Double" />
           <Property Name="STATUT" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="OFFRE" Relationship="Self.FK__OFFRE__ID_ITEM__24927208" FromRole="ITEM" ToRole="OFFRE" />
+          <Property Name="TITRE" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="DATE_INSCRIPTION" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="MEMBRES">
           <Key>
@@ -161,6 +164,8 @@
           <EntitySetMapping Name="ITEM">
             <EntityTypeMapping TypeName="BD_TP3Model.ITEM">
               <MappingFragment StoreEntitySet="ITEM">
+                <ScalarProperty Name="DATE_INSCRIPTION" ColumnName="DATE_INSCRIPTION" />
+                <ScalarProperty Name="TITRE" ColumnName="TITRE" />
                 <ScalarProperty Name="ID_ITEM" ColumnName="ID_ITEM" />
                 <ScalarProperty Name="VENDEUR" ColumnName="VENDEUR" />
                 <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />

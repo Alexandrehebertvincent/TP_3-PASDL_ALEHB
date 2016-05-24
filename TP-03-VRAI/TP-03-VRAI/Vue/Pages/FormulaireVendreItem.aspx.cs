@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace TP_03_VRAI.Vue.Pages
 {
-    public partial class Accueil : System.Web.UI.Page
+    public partial class FormulaireVendreItem : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

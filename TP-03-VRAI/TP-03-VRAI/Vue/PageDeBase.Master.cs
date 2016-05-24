@@ -10,6 +10,22 @@ namespace TP_03_VRAI.Vue
     public partial class PageDeBase : System.Web.UI.MasterPage
     {
 
+        #region "ATTRIBUTS"
+
+        private MEMBRES _leMembre;
+
+        #endregion
+
+        #region "PROPRIÉTÉS"
+
+        public MEMBRES LeMembre
+        {
+            get { return this._leMembre; }
+            set { this._leMembre = value; }
+        }
+
+        #endregion
+
         #region "ÉVÈNEMENTS"
 
         protected void Page_Load(object sender, EventArgs e)
@@ -23,8 +39,39 @@ namespace TP_03_VRAI.Vue
             else
             {
                 // Le membre est connecté.
+                // TODO :::
+                // Le membre doit alors être initialisé.
+                // LeMembre = new MEMBRES();
                 this.afficherFormConnexion(false);
             }
+            /*
+            using (MagasinJouetsEntities1 monEntity = new MagasinJouetsEntities1())
+            {
+                try
+                {
+
+                    var tousLesJouets = from jouet in monEntity.Jouets
+                                        where jouet.prix > 10
+                                        orderby jouet.dateCreation descending
+                                        select jouet;
+
+                    gridJouets.DataSource = tousLesJouets;
+                    //gridJouets.DataBind();
+
+                }
+                catch (EntityDataSourceValidationException exc)
+                {
+                    messageErreur.Text = exc.Message;
+                }
+
+            }
+            */
+
+        }
+
+        private void AfficherLesItemsEnVente()
+        {
+            throw new NotImplementedException();
         }
 
         protected void btnInscription_Click(object sender, EventArgs e)
@@ -41,6 +88,8 @@ namespace TP_03_VRAI.Vue
                 Session["userStatut"] = requete.ToString().Trim();
 
                 afficherControlesMembreConnecte(requete.ToString().Trim());
+
+                Response.Redirect(Request.RawUrl);
             }
             else
                 this.divConnErreur.InnerHtml = "<div class=\"alert alert-danger\" role=\"alert\">Connexion impossible. Veuillez réessayer.</div>";
@@ -50,7 +99,7 @@ namespace TP_03_VRAI.Vue
         {
             Session.Clear();
             Session.Abandon();
-            Response.Redirect("Accueil.aspx");
+            Response.Redirect("Articles.aspx");
         }
 
         #endregion

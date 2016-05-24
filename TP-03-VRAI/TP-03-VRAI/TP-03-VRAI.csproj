@@ -98,10 +98,14 @@
     <Content Include="App_Data\BD_TP3_log.ldf">
       <DependentUpon>BD_TP3.mdf</DependentUpon>
     </Content>
-    <Content Include="Vue\Pages\Accueil.aspx" />
     <Content Include="Vue\Pages\Articles.aspx" />
     <Content Include="Vue\Pages\ArticleUnique.aspx" />
+    <Content Include="Vue\Pages\FormulaireVendreItem.aspx" />
+    <Content Include="Vue\Pages\GestionItems.aspx" />
+    <Content Include="Vue\Pages\GestionMembre.aspx" />
     <Content Include="Vue\Pages\Inscription.aspx" />
+    <Content Include="Vue\Pages\PanierAcheteur.aspx" />
+    <Content Include="Vue\Pages\PanierVendeur.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -137,13 +141,6 @@
     <Compile Include="Vue\PageDeBase.Master.designer.cs">
       <DependentUpon>PageDeBase.Master</DependentUpon>
     </Compile>
-    <Compile Include="Vue\Pages\Accueil.aspx.cs">
-      <DependentUpon>Accueil.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Vue\Pages\Accueil.aspx.designer.cs">
-      <DependentUpon>Accueil.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Vue\Pages\Articles.aspx.cs">
       <DependentUpon>Articles.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -158,12 +155,47 @@
     <Compile Include="Vue\Pages\ArticleUnique.aspx.designer.cs">
       <DependentUpon>ArticleUnique.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Vue\Pages\FormulaireVendreItem.aspx.cs">
+      <DependentUpon>FormulaireVendreItem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\FormulaireVendreItem.aspx.designer.cs">
+      <DependentUpon>FormulaireVendreItem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Pages\GestionItems.aspx.cs">
+      <DependentUpon>GestionItems.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\GestionItems.aspx.designer.cs">
+      <DependentUpon>GestionItems.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Pages\GestionMembre.aspx.cs">
+      <DependentUpon>GestionMembre.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\GestionMembre.aspx.designer.cs">
+      <DependentUpon>GestionMembre.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Vue\Pages\Inscription.aspx.cs">
       <DependentUpon>Inscription.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Vue\Pages\Inscription.aspx.designer.cs">
       <DependentUpon>Inscription.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Pages\PanierAcheteur.aspx.cs">
+      <DependentUpon>PanierAcheteur.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\PanierAcheteur.aspx.designer.cs">
+      <DependentUpon>PanierAcheteur.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Pages\PanierVendeur.aspx.cs">
+      <DependentUpon>PanierVendeur.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Vue\Pages\PanierVendeur.aspx.designer.cs">
+      <DependentUpon>PanierVendeur.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
