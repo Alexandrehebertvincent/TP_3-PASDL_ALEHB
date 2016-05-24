@@ -12,3 +12,11 @@
 .jumbotron{
     margin-top:50px;
 }
+
+.btn-down-10{
+    margin-bottom: 10px;
+}
+
+.btn-right{
+    float:right;
+}

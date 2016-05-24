@@ -52,6 +52,8 @@ namespace TP_03_VRAI.Vue.Pages
                         Panel divCaption = new Panel();
                         divCaption.CssClass = "caption";
 
+                        // Affichage du prix plancher.
+
                         Panel divPrixPlancher = new Panel();
                         divPrixPlancher.CssClass = "col-xs-6";
                         divPrixPlancher.Style["padding"] = "0 5px 0 5px";
@@ -62,18 +64,132 @@ namespace TP_03_VRAI.Vue.Pages
                         Panel divPrixPlancherHeader = new Panel();
                         divPrixPlancherHeader.CssClass = "panel-heading";
 
+                        Label pPrixPlancher = new Label();
+                        pPrixPlancher.Text = "Prix plancher";
 
-                        //<div class=\"col-xs-6\" style=\"padding:0 5px 0 5px;\"><div class=\"panel panel-primary\"><div class=\"panel-heading\">Prix plancher</div><div class=\"panel-body\">" + prix + "$</div></div></div>";
+                        divPrixPlancherHeader.Controls.Add(pPrixPlancher);
+
+                        Panel divPrixPlancherBody = new Panel();
+                        divPrixPlancherBody.CssClass = "panel-body";
+
+                        Label pPrixValeur = new Label();
+                        pPrixValeur.Text = item.PRIX_PLANCHER.ToString() + "$";
+
+                        divPrixPlancherBody.Controls.Add(pPrixValeur);
+
+                        divPrixPlancherContainer.Controls.Add(divPrixPlancherHeader);
+                        divPrixPlancherContainer.Controls.Add(divPrixPlancherBody);
+
+                        divPrixPlancher.Controls.Add(divPrixPlancherContainer);
+
+                        divCaption.Controls.Add(divPrixPlancher);
+
+                        // Affichage du prix de l'offre la plus haute.
+
+                        Panel divPrixEnchere = new Panel();
+                        divPrixEnchere.CssClass = "col-xs-6";
+                        divPrixEnchere.Style["padding"] = "0 5px 0 5px";
+
+                        Panel divPrixEnchereContainer = new Panel();
+                        divPrixEnchereContainer.CssClass = "panel panel-success";
+
+                        Panel divPrixEnchereHeader = new Panel();
+                        divPrixEnchereHeader.CssClass = "panel-heading";
+
+                        Label pPrixEnchere = new Label();
+                        pPrixEnchere.Text = "Prix plancher";
+
+                        divPrixEnchereHeader.Controls.Add(pPrixEnchere);
+
+                        Panel divPrixEnchereBody = new Panel();
+                        divPrixEnchereBody.CssClass = "panel-body";
+
+                        Label pPrixEValeur = new Label();
+                        pPrixEValeur.Text = (prixEnchere == 0 ? item.PRIX_PLANCHER : prixEnchere) + "$";
+
+                        divPrixEnchereBody.Controls.Add(pPrixEValeur);
+
+                        divPrixEnchereContainer.Controls.Add(divPrixEnchereHeader);
+                        divPrixEnchereContainer.Controls.Add(divPrixEnchereBody);
+
+                        divPrixEnchere.Controls.Add(divPrixEnchereContainer);
+
+                        divCaption.Controls.Add(divPrixEnchere);
+
+                        Label hTitre = new Label();
+                        hTitre.Text = "<h3>" + item.TITRE + "</h3>";
+
+                        divCaption.Controls.Add(hTitre);
+
+                        Label pDescription = new Label();
+                        pDescription.Text = "<p>" + item.DESCRIPTION + "</p>";
+
+                        divCaption.Controls.Add(pDescription);
+
+                        Button btnDescription = new Button();
+                        btnDescription.CssClass = "btn btn-primary btn-down-10";
+                        btnDescription.ID = "btnDescription" + item.ID_ITEM;
+                        btnDescription.Click += btnDescription_Click;
+                        btnDescription.Text = "Description";
+                        btnDescription.Attributes["itemID"] = item.ID_ITEM.ToString();
+
+                        divCaption.Controls.Add(btnDescription);
+
+                        if (Convert.ToString(Session["userStatut"]) == "Admin")
+                        {
+                            Button btnRejeter = new Button();
+                            btnRejeter.CssClass = "btn btn-danger btn-right btn-down-10";
+                            btnRejeter.ID = "btnRejeter" + item.ID_ITEM;
+                            btnRejeter.Click += btnRejeter_Click;
+                            btnRejeter.Text = "Rejeter";
+
+                            divCaption.Controls.Add(btnRejeter);
+                        }
+                        else if (Convert.ToString(Session["userStatut"]) == "Acheteur")
+                        {
+                            Panel divInputGroup = new Panel();
+                            divInputGroup.CssClass = "input-group";
+
+                            Label inputGrpButton = new Label();
+                            inputGrpButton.CssClass = "input-group-btn";
+
+                            Button btnEncherir = new Button();
+                            btnEncherir.CssClass = "btn btn-success";
+                            btnEncherir.ID = "btnEncherir" + item.ID_ITEM;
+                            btnEncherir.Click += btnEncherir_Click;
+                            btnEncherir.Text = "Enchérir!";
+
+                            inputGrpButton.Controls.Add(btnEncherir);
+
+                            divInputGroup.Controls.Add(inputGrpButton);
+
+                            TextBox txtOffre = new TextBox();
+                            txtOffre.CssClass = "form-control";
+                            txtOffre.Attributes["placeholder"] = "Entrez votre offre...";
+                            txtOffre.Attributes["type"] = "number";
+
+                            divInputGroup.Controls.Add(txtOffre);
+
+                            Label addon = new Label();
+                            addon.CssClass = "input-group-addon";
+                            addon.Text = "$";
+
+                            divInputGroup.Controls.Add(addon);
+
+                            divCaption.Controls.Add(divInputGroup);
+
+                            //<div class=\"input-group\"><span class=\"input-group-btn\"><button class=\"btn btn-success\"
+                            //type=\"button\">Enchérir!</button></span><input type=\"text\" class=\"form-control\" 
+                            //placeholder=\"Mettre votre offre...\"><span class=\"input-group-addon\">$</span></div>";
+                        }
+
+                        divThumbnailContainer.Controls.Add(divCaption);
+
                         divThumbnail.Controls.Add(divThumbnailContainer);
 
                         affichageItem.Controls.Add(divThumbnail);
 
-                        //affichageItem.InnerHtml += ObtenirPrixPlancherHTML(item.PRIX_PLANCHER);
-                        //affichageItem.InnerHtml += ObtenirPrixMiseHauteHTML((prixEnchere == 0 ? item.PRIX_PLANCHER : prixEnchere));
-                        //affichageItem.InnerHtml += ObtenirTitreItemHTML(item.TITRE);
-                        //affichageItem.InnerHtml += ObtenirDescriptionHTML(item.DESCRIPTION);
-                        //affichageItem.InnerHtml += "<p>";
-                        //affichageItem.InnerHtml += ObtenirBoutonAfficherDescriptionHTML();
+
                         //if (Convert.ToString(Session["userStatut"]) == "Admin")
                         //{
                         //    affichageItem.InnerHtml += ObtenirBoutonRejeterHTML();
@@ -92,6 +208,21 @@ namespace TP_03_VRAI.Vue.Pages
                     //messageErreur.Text = exc.Message;
                 }
             }
+        }
+
+        void btnEncherir_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void btnRejeter_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void btnDescription_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private double ObtenirMeilleurOffreSurProduit(int idProduit)
