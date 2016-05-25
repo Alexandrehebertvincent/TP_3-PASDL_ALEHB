@@ -11,7 +11,7 @@ namespace TP_03_VRAI.Vue.Pages
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            string test = Request.QueryString["item"];
         }
     }
 }

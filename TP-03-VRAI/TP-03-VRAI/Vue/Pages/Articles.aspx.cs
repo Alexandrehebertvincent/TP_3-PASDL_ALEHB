@@ -24,13 +24,12 @@ namespace TP_03_VRAI.Vue.Pages
             {
                 try
                 {
-
                     var tousLesItems = from item in monEntity.ITEM
                                         orderby item.DATE_INSCRIPTION descending
                                         select item;
 
                     foreach (var item in tousLesItems){
-                        double prixEnchere = ObtenirMeilleurOffreSurProduit(item.ID_ITEM);
+                        double prixEnchere = ObtenirMeilleurOffreSurProduit(item).PRIX_OFFRE;
 
                         Panel divThumbnail = new Panel();
                         divThumbnail.CssClass = "col-xs-12 col-sm-3";
@@ -39,7 +38,19 @@ namespace TP_03_VRAI.Vue.Pages
                         divThumbnailContainer.CssClass = "thumbnail";
 
                         Label pNombreEnchere = new Label();
-                        pNombreEnchere.Text = "<p>Nombre d'offre <span class=\"label label-primary\">" + ObtenirCompteOffreSurProduit(item.ID_ITEM) + "</span></p>";
+                        pNombreEnchere.Text = "<p>Nombre d'offre <span class=\"label label-primary\">" + item.OFFRE.Count() + "</span></p>";
+
+                        if (Convert.ToString(Session["userStatut"]) == "Acheteur" || Convert.ToString(Session["userStatut"]) == "Vendeur")
+                        {
+                            if (ObtenirMeilleurOffreSurProduit(item).ID_MEMBRE == Convert.ToInt16(Session["userID"]))
+                            {
+                                pNombreEnchere.Text = "<p>Nombre d'offre <span class=\"label label-primary\">" + item.OFFRE.Count() + "</span><span class=\"label label-success label-right\">En tête</span></p>";
+                            }
+                            else
+                            {
+                                pNombreEnchere.Text = "<p>Nombre d'offre <span class=\"label label-primary\">" + item.OFFRE.Count() + "</span><span class=\"label label-danger label-right\">Dépassé</span></p>";
+                            }
+                        }
 
                         divThumbnailContainer.Controls.Add(pNombreEnchere);
 
@@ -97,7 +108,7 @@ namespace TP_03_VRAI.Vue.Pages
                         divPrixEnchereHeader.CssClass = "panel-heading";
 
                         Label pPrixEnchere = new Label();
-                        pPrixEnchere.Text = "Prix plancher";
+                        pPrixEnchere.Text = "Offre actuelle";
 
                         divPrixEnchereHeader.Controls.Add(pPrixEnchere);
 
@@ -131,7 +142,7 @@ namespace TP_03_VRAI.Vue.Pages
                         btnDescription.ID = "btnDescription" + item.ID_ITEM;
                         btnDescription.Click += btnDescription_Click;
                         btnDescription.Text = "Description";
-                        btnDescription.Attributes["itemID"] = item.ID_ITEM.ToString();
+                        btnDescription.Attributes["itemid"] = item.ID_ITEM.ToString();
 
                         divCaption.Controls.Add(btnDescription);
 
@@ -145,7 +156,7 @@ namespace TP_03_VRAI.Vue.Pages
 
                             divCaption.Controls.Add(btnRejeter);
                         }
-                        else if (Convert.ToString(Session["userStatut"]) == "Acheteur")
+                        else if (Convert.ToString(Session["userStatut"]) == "Acheteur" || Convert.ToString(Session["userStatut"]) == "Vendeur")
                         {
                             Panel divInputGroup = new Panel();
                             divInputGroup.CssClass = "input-group";
@@ -158,15 +169,21 @@ namespace TP_03_VRAI.Vue.Pages
                             btnEncherir.ID = "btnEncherir" + item.ID_ITEM;
                             btnEncherir.Click += btnEncherir_Click;
                             btnEncherir.Text = "Enchérir!";
+                            btnEncherir.Attributes["itemid"] = item.ID_ITEM.ToString();
 
                             inputGrpButton.Controls.Add(btnEncherir);
 
                             divInputGroup.Controls.Add(inputGrpButton);
 
                             TextBox txtOffre = new TextBox();
+                            txtOffre.ID = "txtOffre" + item.ID_ITEM.ToString();
+                            txtOffre.Attributes["name"] = "txtOffre" + item.ID_ITEM.ToString();
                             txtOffre.CssClass = "form-control";
                             txtOffre.Attributes["placeholder"] = "Entrez votre offre...";
                             txtOffre.Attributes["type"] = "number";
+                            txtOffre.Attributes["itemid"] = item.ID_ITEM.ToString();
+                            txtOffre.Attributes["minbid"] = (prixEnchere == 0 ? item.PRIX_PLANCHER : prixEnchere).ToString();
+                            txtOffre.Text = (prixEnchere == 0 ? item.PRIX_PLANCHER + 1 : prixEnchere + 1).ToString();
 
                             divInputGroup.Controls.Add(txtOffre);
 
@@ -177,10 +194,6 @@ namespace TP_03_VRAI.Vue.Pages
                             divInputGroup.Controls.Add(addon);
 
                             divCaption.Controls.Add(divInputGroup);
-
-                            //<div class=\"input-group\"><span class=\"input-group-btn\"><button class=\"btn btn-success\"
-                            //type=\"button\">Enchérir!</button></span><input type=\"text\" class=\"form-control\" 
-                            //placeholder=\"Mettre votre offre...\"><span class=\"input-group-addon\">$</span></div>";
                         }
 
                         divThumbnailContainer.Controls.Add(divCaption);
@@ -188,18 +201,6 @@ namespace TP_03_VRAI.Vue.Pages
                         divThumbnail.Controls.Add(divThumbnailContainer);
 
                         affichageItem.Controls.Add(divThumbnail);
-
-
-                        //if (Convert.ToString(Session["userStatut"]) == "Admin")
-                        //{
-                        //    affichageItem.InnerHtml += ObtenirBoutonRejeterHTML();
-                        //}
-                        //else if (Convert.ToString(Session["userStatut"]) == "Acheteur")
-                        //{
-                        //    affichageItem.InnerHtml += ObtenirControleEncherirHTML();
-                        //}
-                        //affichageItem.InnerHtml += "</p>";
-                        //affichageItem.InnerHtml += "</div></div></div>";
                     }
 
                 }
@@ -212,7 +213,35 @@ namespace TP_03_VRAI.Vue.Pages
 
         void btnEncherir_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Button btnEncherir = (Button)sender;
+            string itemID = btnEncherir.Attributes["itemid"];
+            double prixOffert = Convert.ToDouble(Request["ctl00$ContentPlaceHolder1$txtOffre" + itemID].Trim());
+            OFFRE offre = new OFFRE();
+            offre.ID_ITEM = Convert.ToInt16(itemID);
+            offre.ID_MEMBRE = Convert.ToInt16(Session["userID"]);
+            offre.PRIX_OFFRE = prixOffert;
+            offre.DATE_OFFRE = DateTime.Now;
+
+            BD_Entities maBd = new BD_Entities();
+            maBd.OFFRE.Add(offre);
+            maBd.SaveChanges();
+            AjouterMessage(false, "Votre offre a bien été ajoutée! Merci.");
+            Response.Redirect(Request.RawUrl);
+        }
+
+        private ITEM ObtenirItemParID(int idItem)
+        {
+            using (BD_Entities monEntity = new BD_Entities())
+            {
+                try
+                {
+                    ITEM itemRetour = (from item in monEntity.ITEM
+                                where item.ID_ITEM == idItem
+                                select item).FirstOrDefault();
+                    return itemRetour;
+                }
+                catch (Exception e) { return null; }
+            }
         }
 
         void btnRejeter_Click(object sender, EventArgs e)
@@ -222,96 +251,28 @@ namespace TP_03_VRAI.Vue.Pages
 
         private void btnDescription_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Button btnDesc = (Button)sender;
+            Server.Transfer("ArticleUnique.aspx?item=" + btnDesc.Attributes["itemid"], true);
         }
 
-        private double ObtenirMeilleurOffreSurProduit(int idProduit)
+        private OFFRE ObtenirMeilleurOffreSurProduit(ITEM item)
         {
-            using (BD_Entities monEntity = new BD_Entities())
+            OFFRE offreMaxObjet = null;
+            double offreMax = 0;
+            foreach (OFFRE offre in item.OFFRE)
             {
-                try
+                if (offre.PRIX_OFFRE > offreMax)
                 {
-
-                    var meilleurPrix = (from offre in monEntity.OFFRE
-                                        where offre.ID_ITEM == idProduit
-                                        orderby offre.PRIX_OFFRE descending
-                                        select offre.PRIX_OFFRE).FirstOrDefault();
-                    return meilleurPrix;
-                }
-                catch (Exception e)
-                {
-                    return 0;
+                    offreMax = offre.PRIX_OFFRE;
+                    offreMaxObjet = offre;
                 }
             }
+            return offreMaxObjet;
         }
 
-        private double ObtenirCompteOffreSurProduit(int idProduit)
+        private void AjouterMessage(bool erreur, string message)
         {
-            using (BD_Entities monEntity = new BD_Entities())
-            {
-                try
-                {
-
-                    var meilleurPrix = from offre in monEntity.OFFRE
-                                        where offre.ID_ITEM == idProduit
-                                        select offre.PRIX_OFFRE;
-                    return meilleurPrix.Count();
-                }
-                catch (Exception e)
-                {
-                    return 0;
-                }
-            }
-        }
-
-        private string ObtenirNombreEnchere(int idItem)
-        {
-            return "<p>Nombre d'offre <span class=\"label label-primary\">" + ObtenirCompteOffreSurProduit(idItem) + "</span></p>";
-        }
-
-        private string ObtenirPrixPlancherHTML(double? prix)
-        {
-            return "<div class=\"col-xs-6\" style=\"padding:0 5px 0 5px;\"><div class=\"panel panel-primary\"><div class=\"panel-heading\">Prix plancher</div><div class=\"panel-body\">" + prix + "$</div></div></div>";
-        }
-
-        private string ObtenirPrixMiseHauteHTML(double? prix)
-        {
-            return "<div class=\"col-xs-6\" style=\"padding:0 5px 0 5px;\"><div class=\"panel panel-success\"><div class=\"panel-heading\">Enchère</div><div class=\"panel-body\">" + prix + "$</div></div></div>";
-        }
-
-        private string ObtenirControleEncherirHTML()
-        {
-            return "<div class=\"input-group\"><span class=\"input-group-btn\"><button class=\"btn btn-success\" type=\"button\">Enchérir!</button></span><input type=\"text\" class=\"form-control\" placeholder=\"Mettre votre offre...\"><span class=\"input-group-addon\">$</span></div>";
-        }
-
-        private string ObtenirBoutonRejeterHTML()
-        {
-            return "<a href=\"#\" class=\"btn btn-danger\" role=\"button\">Rejeter</a>";
-        }
-
-        private string ObtenirBoutonAfficherDescriptionHTML()
-        {
-            return "<a href=\"#\" class=\"btn btn-primary\" role=\"button\" id=\"btnDescription\" runat=\"server\">Description</a>";
-        }
-
-        private void myButton_Click(object sender, EventArgs e)
-        {
-            affichageItem.InnerHtml = "";
-        }
-
-        private string ObtenirDescriptionHTML(string description)
-        {
-            return "<p>" + description + "</p>";
-        }
-
-        private string ObtenirImageThumbnailHTML(string photoUrl, string alt)
-        {
-            return "<img src=\"../../img/" + photoUrl + "\" alt=\"" + alt + "\">";
-        }
-
-        private string ObtenirTitreItemHTML(string titre)
-        {
-            return "<h3>" + titre + "</h3>";
+            this.divConnErreur.InnerHtml = "<div class=\"alert alert-" + (erreur == true ? "danger" : "success") + "\" role=\"alert\">" + message + "</div>";
         }
     }
 }

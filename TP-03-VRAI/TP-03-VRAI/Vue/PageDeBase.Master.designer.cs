@@ -22,6 +22,33 @@ namespace TP_03_VRAI.Vue {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
         
         /// <summary>
+        /// Contrôle nbDansPanierA.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl nbDansPanierA;
+        
+        /// <summary>
+        /// Contrôle spanNbVentesEnCours.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanNbVentesEnCours;
+        
+        /// <summary>
+        /// Contrôle nbDansPanierV.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl nbDansPanierV;
+        
+        /// <summary>
         /// Contrôle divConnexion.
         /// </summary>
         /// <remarks>

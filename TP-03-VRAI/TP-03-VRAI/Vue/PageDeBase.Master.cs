@@ -10,89 +10,54 @@ namespace TP_03_VRAI.Vue
     public partial class PageDeBase : System.Web.UI.MasterPage
     {
 
-        #region "ATTRIBUTS"
-
-        private MEMBRES _leMembre;
-
-        #endregion
-
-        #region "PROPRIÉTÉS"
-
-        public MEMBRES LeMembre
-        {
-            get { return this._leMembre; }
-            set { this._leMembre = value; }
-        }
-
-        #endregion
-
         #region "ÉVÈNEMENTS"
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Vérification d'une connexion existante.
-            if (Session["user"] == null)
+            if (Session["user"] != null)
             {
-                // Le membre n'est pas connecté.
-                this.afficherFormConnexion(true);
-            }
-            else
-            {
-                // Le membre est connecté.
-                // TODO :::
-                // Le membre doit alors être initialisé.
-                // LeMembre = new MEMBRES();
-                this.afficherFormConnexion(false);
-            }
-            /*
-            using (MagasinJouetsEntities1 monEntity = new MagasinJouetsEntities1())
-            {
-                try
+                switch (Session["userStatut"].ToString())
                 {
-
-                    var tousLesJouets = from jouet in monEntity.Jouets
-                                        where jouet.prix > 10
-                                        orderby jouet.dateCreation descending
-                                        select jouet;
-
-                    gridJouets.DataSource = tousLesJouets;
-                    //gridJouets.DataBind();
-
+                    case "Admin":
+                        break;
+                    case "Acheteur":
+                        nbDansPanierA.InnerText = ObtenirNbDansPanierMembreSelonID(Convert.ToInt16(Session["userID"])).ToString();
+                        break;
+                    case "Vendeur":
+                        nbDansPanierV.InnerText = ObtenirNbDansPanierMembreSelonID(Convert.ToInt16(Session["userID"])).ToString();
+                        spanNbVentesEnCours.InnerText = ObtenirNbItemEnVenteSelonMembreID(Session["user"].ToString()).ToString();
+                        break;
+                    default:
+                        break;
                 }
-                catch (EntityDataSourceValidationException exc)
-                {
-                    messageErreur.Text = exc.Message;
-                }
-
             }
-            */
-
-        }
-
-        private void AfficherLesItemsEnVente()
-        {
-            throw new NotImplementedException();
         }
 
         protected void btnInscription_Click(object sender, EventArgs e)
         {
             // Vérifier l'identité du membre.
-            BD_Entities donnees = new BD_Entities();
-            string requete = (from membre in donnees.MEMBRES
-                            where membre.NOM_MEMBRE.Equals(this.txtUser.Text.Trim(), StringComparison.CurrentCultureIgnoreCase) && membre.MOT_DE_PASSE.Equals(this.txtPass.Text, StringComparison.CurrentCulture)
-                            select membre.STATUT).FirstOrDefault();
-            if (requete != null)
+            using (BD_Entities monEntity = new BD_Entities())
             {
-                this.divConnErreur.InnerHtml = "<div class=\"alert alert-success\" role=\"alert\">Vous êtes connecté avec succès!</div>";
-                Session["user"] = this.txtUser.Text.Trim();
-                Session["userStatut"] = requete.ToString().Trim();
+                try
+                {
+                    MEMBRES membreConnecte = (from membre in monEntity.MEMBRES
+                                              where membre.NOM_MEMBRE.Equals(this.txtUser.Text.Trim(), StringComparison.CurrentCultureIgnoreCase) && membre.MOT_DE_PASSE.Equals(this.txtPass.Text, StringComparison.CurrentCulture)
+                                              select membre).FirstOrDefault();
+                    if (membreConnecte != null)
+                    {
+                        this.divConnErreur.InnerHtml = "<div class=\"alert alert-success\" role=\"alert\">Vous êtes connecté avec succès!</div>";
+                        
+                        Session["user"] = membreConnecte.NOM_MEMBRE.Trim();
+                        Session["userStatut"] = membreConnecte.STATUT.Trim();
+                        Session["userID"] = membreConnecte.ID_MEMBRE;
 
-                afficherControlesMembreConnecte(requete.ToString().Trim());
-
-                Response.Redirect(Request.RawUrl);
+                        Response.Redirect(Request.RawUrl);
+                    }
+                    else
+                        this.divConnErreur.InnerHtml = "<div class=\"alert alert-danger\" role=\"alert\">Connexion impossible. Veuillez réessayer.</div>";
+                }
+                catch (Exception exc) { }
             }
-            else
-                this.divConnErreur.InnerHtml = "<div class=\"alert alert-danger\" role=\"alert\">Connexion impossible. Veuillez réessayer.</div>";
         }
 
         protected void btnDeconnexion_Click(object sender, EventArgs e)
@@ -106,27 +71,33 @@ namespace TP_03_VRAI.Vue
 
         #region "MÉTHODES"
 
-        private void afficherFormConnexion(bool valeur)
+        private int ObtenirNbDansPanierMembreSelonID(int ID)
         {
-            this.divConnexion.Visible = valeur;
-            this.divDeconnexion.Visible = !valeur;
+            using (BD_Entities monEntity = new BD_Entities())
+            {
+                try
+                {
+                    var offreRecherchee = (from offre in monEntity.OFFRE
+                                             where offre.ID_MEMBRE == ID
+                                             select offre.ID_ITEM).Distinct();
+                    return offreRecherchee.Count();
+                }
+                catch (Exception exc) { return 0; }
+            }
         }
 
-        private void afficherControlesMembreConnecte(string typeMembre)
+        private int ObtenirNbItemEnVenteSelonMembreID(string NomVendeur)
         {
-            // Vérifier la connexion du membre.
-            this.lblTitreJumbo.InnerText = "Bonjour " + Session["user"];
-            this.afficherFormConnexion(false);
-
-            switch (typeMembre) {
-                case "Admin":
-                    break;
-                case "Acheteur":
-                    break;
-                case "Vendeur":
-                    break;
-                default:
-                    throw new Exception("Le membre doit être un administrateur, un vendeur ou un acheter pour activer les contrôles spécifiques.");
+            using (BD_Entities monEntity = new BD_Entities())
+            {
+                try
+                {
+                    var itemRecherche = from item in monEntity.ITEM
+                                        where item.VENDEUR == NomVendeur
+                                        select item;
+                    return itemRecherche.Count();
+                }
+                catch (Exception exc) { return 0; }
             }
         }
 

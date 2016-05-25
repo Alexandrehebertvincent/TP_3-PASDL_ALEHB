@@ -11,6 +11,13 @@
 
 .jumbotron{
     margin-top:50px;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+.jumbotron h1{
+    font-weight: 100;
+    font-family: 'Helvetica Light';
 }
 
 .btn-down-10{
@@ -18,5 +25,9 @@
 }
 
 .btn-right{
+    float:right;
+}
+
+.label-right{
     float:right;
 }

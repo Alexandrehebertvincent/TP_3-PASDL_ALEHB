@@ -12,7 +12,11 @@ namespace TP_03_VRAI.Vue.Pages
         protected void Page_Load(object sender, EventArgs e)
         {
 
+            Panel TresGrandDiv = new Panel();
+            TresGrandDiv.CssClass = "row";
+
             Panel GrandDiv = new Panel();
+            GrandDiv.CssClass = "col-xs-12 col-sm-6";
             //GrandDiv.CssClass = "form-inline";
 
             Label lblTitreItem = new Label();
@@ -63,6 +67,8 @@ namespace TP_03_VRAI.Vue.Pages
             divImage.Controls.Add(lblImage);
             divImage.Controls.Add(image);
             GrandDiv.Controls.Add(divImage);
+
+            TresGrandDiv.Controls.Add(GrandDiv);
             
 
 
@@ -86,7 +92,7 @@ namespace TP_03_VRAI.Vue.Pages
             //this.formAjoutItem.Controls.Add(txtPrixPlancher);
             //this.formAjoutItem.Controls.Add(btnPosterItem);
 
-            this.formAjoutItem.Controls.Add(GrandDiv);
+            this.formAjoutItem.Controls.Add(TresGrandDiv);
         }
     }
 }
