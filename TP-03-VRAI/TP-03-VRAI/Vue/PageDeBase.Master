@@ -45,7 +45,7 @@
                                 <% break; %>
                         <% } %>
                     <% }else{ %>
-                        <li class="active"><a href="Inscription.aspx">Inscription</a></li>
+                        <li><a href="Inscription.aspx">Inscription</a></li>
                     <% } %>
                 </ul>
 

@@ -29,7 +29,12 @@ namespace TP_03_VRAI.Vue.Pages
                                         select item;
 
                     foreach (var item in tousLesItems){
-                        double prixEnchere = ObtenirMeilleurOffreSurProduit(item).PRIX_OFFRE;
+                        double prixEnchere = 0;
+                        OFFRE lOffre = ObtenirMeilleurOffreSurProduit(item);
+                        if (lOffre != null)
+                        {
+                            prixEnchere = lOffre.PRIX_OFFRE;
+                        }
 
                         Panel divThumbnail = new Panel();
                         divThumbnail.CssClass = "col-xs-12 col-sm-3";
@@ -48,7 +53,7 @@ namespace TP_03_VRAI.Vue.Pages
                             }
                             else
                             {
-                                pNombreEnchere.Text = "<p>Nombre d'offre <span class=\"label label-primary\">" + item.OFFRE.Count() + "</span><span class=\"label label-danger label-right\">Dépassé</span></p>";
+                                pNombreEnchere.Text = "<p>Nombre d'offre <span class=\"label label-primary\">" + item.OFFRE.Count() + "</span></p>";
                             }
                         }
 
@@ -156,7 +161,7 @@ namespace TP_03_VRAI.Vue.Pages
 
                             divCaption.Controls.Add(btnRejeter);
                         }
-                        else if (Convert.ToString(Session["userStatut"]) == "Acheteur" || Convert.ToString(Session["userStatut"]) == "Vendeur")
+                        else if (Convert.ToString(Session["userStatut"]) == "Acheteur" || (Convert.ToString(Session["userStatut"]) == "Vendeur" && item.VENDEUR.Trim() != Session["user"].ToString()))
                         {
                             Panel divInputGroup = new Panel();
                             divInputGroup.CssClass = "input-group";
@@ -260,15 +265,19 @@ namespace TP_03_VRAI.Vue.Pages
         {
             OFFRE offreMaxObjet = null;
             double offreMax = 0;
-            foreach (OFFRE offre in item.OFFRE)
+            try
             {
-                if (offre.PRIX_OFFRE > offreMax)
+                foreach (OFFRE offre in item.OFFRE)
                 {
-                    offreMax = offre.PRIX_OFFRE;
-                    offreMaxObjet = offre;
+                    if (offre.PRIX_OFFRE > offreMax)
+                    {
+                        offreMax = offre.PRIX_OFFRE;
+                        offreMaxObjet = offre;
+                    }
                 }
+                return offreMaxObjet;
             }
-            return offreMaxObjet;
+            catch (Exception e) { return null; }
         }
 
         private void AjouterMessage(bool erreur, string message)
