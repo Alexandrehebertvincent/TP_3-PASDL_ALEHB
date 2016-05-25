@@ -252,7 +252,8 @@ namespace TP_03_VRAI.Vue.Pages
         private void btnDescription_Click(object sender, EventArgs e)
         {
             Button btnDesc = (Button)sender;
-            Server.Transfer("ArticleUnique.aspx?item=" + btnDesc.Attributes["itemid"], true);
+            //Server.Transfer("ArticleUnique.aspx?item=" + btnDesc.Attributes["itemid"], true);
+            Response.Redirect("ArticleUnique.aspx?item=" + btnDesc.Attributes["itemid"]);
         }
 
         private OFFRE ObtenirMeilleurOffreSurProduit(ITEM item)

@@ -1,4 +1,4 @@
-# BONJOUR!
+﻿# BONJOUR!
 
 ## Voici la liste des malheureuses choses à faire:
 
@@ -13,3 +13,5 @@
 <li>Ajouter un item à la vente --> vendeur</li>
 <li>Lorsqu'une offre est faite, le prix le plus offrant doit être affiché avec le prix plancher sur l'item</li>
 </ul>
+
+reste page de gestion membre/items, panier et description!
